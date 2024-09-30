@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRP</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>CRP</h1>
+        <form method="POST">
+            <div class="form-group">
+                <label for="centro_trabajo">Seleccionar Centro de Trabajo</label>
+                <select class="form-control" id="centro_trabajo" name="centro_trabajo">
+                    <option value="">Seleccionar...</option>
+                    <!-- Aquí agregas las opciones dinámicamente -->
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success">Registrar CRP</button>
+        </form>
+    </div>
+</body>
+</html>
