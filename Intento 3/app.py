@@ -28,18 +28,6 @@ class BOM(db.Model):
     costo = db.Column(db.Float, nullable=False)
     lead_time = db.Column(db.Integer, nullable=False)
 
-class CentroTrabajo(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    linea = db.Column(db.String(100), nullable=False)
-    capacidad_inicial = db.Column(db.Integer, nullable=False)
-    operarios = db.Column(db.Integer, nullable=False)
-    throughput = db.Column(db.Float, nullable=False)
-    costo_extra = db.Column(db.Float, nullable=False)
-    presupuesto_extra = db.Column(db.Float, nullable=False)
-    costo_contratacion = db.Column(db.Float, nullable=False)
-    costo_despido = db.Column(db.Float, nullable=False)
-    salario = db.Column(db.Float, nullable=False)
-
 class MPS(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     producto_id = db.Column(db.Integer, db.ForeignKey('producto.id'), nullable=False)
@@ -132,32 +120,3 @@ def mrp():
     productos = Producto.query.all()  # Recuperar productos para el formulario MRP
     return render_template('mrp.html', productos=productos)
 
-@app.route('/centro_trabajo', methods=['GET', 'POST'])
-def centro_trabajo():
-    if request.method == 'POST':
-        linea = request.form['linea']
-        capacidad = int(request.form['capacidad'])
-        operarios = int(request.form['operarios'])
-        throughput = float(request.form['throughput'])
-        costo_extra = float(request.form['costo_extra'])
-        presupuesto = float(request.form['presupuesto'])
-        costo_contratacion = float(request.form['costo_contratacion'])
-        costo_despido = float(request.form['costo_despido'])
-        
-        centro = CentroTrabajo(linea=linea, capacidad_inicial=capacidad, operarios=operarios, throughput=throughput,
-                               costo_extra=costo_extra, presupuesto_extra=presupuesto,
-                               costo_contratacion=costo_contratacion, costo_despido=costo_despido)
-        db.session.add(centro)
-        db.session.commit()
-        return redirect(url_for('centro_trabajo'))
-
-    centros_trabajo = CentroTrabajo.query.all()  # Recuperar centros de trabajo de la base de datos
-    return render_template('centro_trabajo.html', centros_trabajo=centros_trabajo)
-
-@app.route('/crp', methods=['GET'])
-def crp():
-    centros_trabajo = CentroTrabajo.query.all()  # Recuperar centros de trabajo para CRP
-    return render_template('crp.html', centros_trabajo=centros_trabajo)
-
-if __name__ == '__main__':
-    app.run(debug=True)
